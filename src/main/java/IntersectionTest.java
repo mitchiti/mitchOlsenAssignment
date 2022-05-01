@@ -8,44 +8,44 @@ class IntersectionTest
     public static void main(String[] args)
     {
 
-        System.out.println("\n*** Intersection Area Calculation ***");
-        System.out.println();
+        while (true) {
+            System.out.println("\n*** Intersection Area Calculation ***");
+            System.out.println();
 
-        prompt();
+            prompt();
 
-        displayCircleAreas();
+            displayCircleAreas();
 
-        // if (r1-r2 < d < r1+r2)
-        displayIntersectionArea();
+            double r1 = intersection.getCircleA().getRadius();
+            double r2 = intersection.getCircleB().getRadius();
+            double d = intersection.getCircleA().getCentre().calDistance(intersection.getCircleB().getCentre());
+            if ((((r1 - r2) < d)) && ((d < (r1 + r2)))) {
+                displayIntersectionArea();
+            }
+
+            new IntersectionDraw(intersection);
+        }
     }
 
     private static void prompt()
     {
         //creates the Intersection object using the input values
 
-        //IntersectionTest input = new IntersectionTest();
-
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the Coordinate of the centre point (x, y) and radius of the first circle");
         int x1 = input.nextInt();
-//        keyboard.nextLine();
         int y1 = input.nextInt();
-//        String val = input.nextLine();
         int r1 = input.nextInt();
 
         System.out.println("Enter the Coordinate of centre point (x, y) and radius of the second circle");
         int x2 = input.nextInt();
-//        keyboard.nextLine();
         int y2 = input.nextInt();
-//        keyboard.nextLine();
         int r2 = input.nextInt();
-//
+
         Point p1 = new Point(x1,y1);
         Point p2 = new Point(x2,y2);
-        //Circle radius = new Circle(r1,r2);
         Circle circle1 = new Circle(p1,r1);
         Circle circle2 = new Circle(p2,r2);
-//        double area = circle1.calArea();
 
         intersection = new Intersection(circle1, circle2);
 
@@ -54,12 +54,6 @@ class IntersectionTest
 
     private static void displayCircleAreas()
     {
-        //double areaFirstCircle;
-
-        //Circle area = new Circle();
-        //double areaFirstCircle = area.calArea(r1);
-        //double areaSecondCircle = area.calArea(r2);
-
         Circle circle1 = intersection.getCircleA();
         Circle circle2 = intersection.getCircleB();
 
@@ -84,12 +78,6 @@ class Intersection
 {
     private  Circle circleA;
     private  Circle circleB;
-
-//    public Intersection()
-//    {
-//        Circle c1 = new Circle();
-//        this(c1,c1);
-//    }
 
     public Intersection(Circle circleA, Circle circleB)
     {
@@ -116,9 +104,10 @@ class Intersection
         Point p2 = circleB.getCentre();
         double d = p1.calDistance(p2);
 
-        double d1 = ((pow(r1, 2)) - (pow(r2, 2)) + (pow(d, 2)) / 2 * d);
-        double d2 = ((pow(r2, 2)) - (pow(r1, 2)) + (pow(d, 2)) / 2 * d);
-        return ((Math.pow(r1, 2)) * (1 / Math.cos(d1 / r1)) - (d1 * (Math.sqrt((Math.pow(r1, 2))))) * (Math.pow(d1, 2)) + (Math.pow(r2, 2)) * (1 / Math.cos(d2 / r2)) - (d2 * (Math.sqrt((Math.pow(r2, 2))))) * (Math.pow(d2, 2)));
+        double d1 = (pow(r1, 2) - pow(r2, 2) + pow(d, 2)) / (2 * d);
+        double d2 = (pow(r2, 2) - pow(r1, 2) + pow(d, 2)) / (2 * d);
+        return (pow(r1, 2) * acos(d1 / r1)) - (d1 * sqrt(pow(r1, 2) - pow(d1, 2)))
+             + (pow(r2, 2) * acos(d2 / r2)) - (d2 * sqrt(pow(r2, 2) - pow(d2, 2)));
     }
 
 }
@@ -128,13 +117,6 @@ class Circle
 
     private Point centre;
     private double radius;
-
-//    public Circle()
-//    {
-//        Point p = new Point();
-//        this(p,1);
-//
-//    }
 
     public Circle(Point c1, double r1)
     {
@@ -156,14 +138,6 @@ class Circle
 
     public double calArea()
     {
-//        //double areaSecondCircle;
-//        //Circle area = new calArea();
-//        //double r1 = radius;
-//
-//        IntersectionTest radius = new IntersectionTest(areaFirstCircle, areaSecondCircle);
-
-//        double areaFirstCircle = (PI * pow(radius, 2));
-//        double areaSecondCircle = (PI * pow(radius, 2));
         return (PI * pow(radius, 2));
     }
 }
@@ -173,14 +147,8 @@ class Point
     private double x;
     private double y;
 
-    public Point()
-    {
-        this(0,0);
-    }
-
     public Point(double x, double y)
     {
-
         this.x = x;
         this.y = y;
 
@@ -198,22 +166,10 @@ class Point
 
     public double calDistance (Point p2)
     {
-        // d = sqrt((pow(x1 - x2, 2) + (pow(y1 - y2, 2))
-        // return d;
-        // check if there two circles overlap
-
         double x2 = p2.getX();
         double y2 = p2.getY();
 
-        double d = (sqrt((pow(x - x2, 2)) + (pow(y - y2, 2))));
+        double d = sqrt((pow(x - x2, 2)) + (pow(y - y2, 2)));
         return d;
-        //if (d > r1 + r2)
-        //	System.out.println("The program has terminated due to no overlap of the two circles");
-        //else if (d + r2 <= r1)
-        //	System.out.println("The program has terminated due to circle two being entirely inside circle one. The area of intersection is the areasw of C2 = ");
-        //else
-
-
-
     }
 }
